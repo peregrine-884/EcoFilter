@@ -180,6 +180,16 @@ def run(
                     label = names[c] if hide_conf else f'{names[c]}'
                     confidence = float(conf)
                     confidence_str = f'{confidence:.2f}'
+                    n_1 = (det[:, -1] == 0).sum() #ラベルAの総数をカウント
+                    a = f"{n_1} "#{'A'}{'s' * (n_1 > 1)}, "
+                    cv2.putText(im0, "Tomato counter " , (20, 50), 0, 1.0, (71, 99, 255), 3)
+                    cv2.putText(im0, "A : " + str(a), (20, 100), 0, 1.5, (71, 99, 255), 3)
+                    n_2 = (det[:, -1] == 1).sum() #ラベルBの総数をカウント
+                    b = f"{n_2} "#{'A'}{'s' * (n_1 > 1)}, "
+                    cv2.putText(im0, "B : " + str(b), (20, 150), 0, 1.5, (0, 215, 255), 3)
+                    n_3 = (det[:, -1] == 2).sum() #ラベルCの総数をカウント
+                    d = f"{n_3} "#{'A'}{'s' * (n_1 > 1)}, "
+                    cv2.putText(im0, "C : " + str(d), (20, 200), 0, 1.5, (154, 250, 0), 3)
 
                     if save_csv:
                         write_to_csv(p.name, label, confidence_str)
