@@ -2,8 +2,12 @@ import cv2
 import torch
 import numpy as np
 
-# 検出する際のモデルを読込
-model = torch.hub.load('', 'yolov5s', source='local')  # localのyolov5sを使用
+# プリセットのモデルをロード
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=False, source='local')
+
+# best.pt ファイルから重みをロード
+weights_path = 'best.pt'  # 重みファイルのパスを指定
+model.load_state_dict(torch.load(weights_path, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))['model'].state_dict())
 
 # 検出の設定
 model.conf = 0.5  # 検出の下限値。設定しなければすべて検出
