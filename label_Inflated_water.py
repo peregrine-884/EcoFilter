@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy as np
 import random
+import shutil
 
 def adjust_brightness(image, factor):
     """ 画像の明るさを調整する関数 """
@@ -14,8 +15,8 @@ def augment_images_in_folder(images_folder_path, labels_folder_path, num_augment
     for filename in os.listdir(images_folder_path):
         if filename.endswith(".jpg") or filename.endswith(".png"):
             image_path = os.path.join(images_folder_path, filename)
-            annotation_filename = os.path.splitext(filename)[0] + ".txt"
-            annotation_path = os.path.join(labels_folder_path, annotation_filename)
+            base_filename, file_extension = os.path.splitext(filename)
+            annotation_path = os.path.join(labels_folder_path, f"{base_filename}.txt")
 
             if not os.path.exists(annotation_path):
                 continue  # アノテーションファイルが存在しない場合はスキップ
@@ -25,16 +26,17 @@ def augment_images_in_folder(images_folder_path, labels_folder_path, num_augment
             for i in range(num_augmentations):
                 factor = random.uniform(0.6, 1.4)  # 明るさ変更の係数をランダムに選択
                 new_image = adjust_brightness(image, factor)
-                new_image_filename = f"{os.path.splitext(filename)[0]}_brightness_{i}.jpg"
+                new_image_filename = f"{base_filename}_brightness_{i}{file_extension}"
                 new_image_path = os.path.join(images_folder_path, new_image_filename)
-                new_annotation_path = os.path.join(labels_folder_path, os.path.splitext(new_image_filename)[0] + ".txt")
+                new_annotation_filename = f"{base_filename}_brightness_{i}.txt"
+                new_annotation_path = os.path.join(labels_folder_path, new_annotation_filename)
 
                 cv2.imwrite(new_image_path, new_image)
-                os.system(f"cp '{annotation_path}' '{new_annotation_path}'")
+                shutil.copy(annotation_path, new_annotation_path)
 
 # 例：フォルダパスと水増しする枚数
-images_folder_path = "data/train/images"
-labels_folder_path = "data/train/labels"
+images_folder_path = "data/valid/images"
+labels_folder_path = "data/valid/labels"
 num_augmentations = 3  # 1つの画像に対する水増しの枚数
 
 # 処理実行
