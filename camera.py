@@ -3,18 +3,20 @@ import torch
 import numpy as np
 
 # プリセットのモデルをロード
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=False, source='local')
+model = torch.hub.load('.', 'custom', path='best.pt', source='local')  # GitHubリポジトリとモデルの名前を指定
 
+# モデルの構成を確認（オプション）
+# print(model)
 # best.pt ファイルから重みをロード
-weights_path = 'best.pt'  # 重みファイルのパスを指定
-model.load_state_dict(torch.load(weights_path, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))['model'].state_dict())
+# weights_path = 'best.pt'  # 重みファイルのパスを指定
+# model.load_state_dict(torch.load(weights_path, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))['model'].state_dict())
 
 # 検出の設定
 model.conf = 0.5  # 検出の下限値。設定しなければすべて検出
 model.classes = [0]  # 0:person クラスだけ検出する。設定しなければすべて検出
 
 # 映像の読込元指定
-camera = cv2.VideoCapture(0)  # カメラ：Ch.(ここでは0)を指定
+camera = cv2.VideoCapture(1)  # カメラ：Ch.(ここでは0)を指定
 
 # ヒットエリアのためのパラメータ
 pos_x = 240
