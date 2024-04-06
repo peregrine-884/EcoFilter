@@ -234,7 +234,7 @@ $ python3 camera.py
 After this, some logs output at terminal and be written ~~“start ”~~準備が完了したログをターミナルに表示させたい。
 ターミナルの画像を貼り付けたい. Then you can use our intelligent trash box. Try to insert some plastic bottles. Please note that you shouldn’t insert a new bottle while this trash box is processing a bottle you entered. If all goes well, you should see the plastic bottle putting in the box or putting out ~~from the box~~画像を張り付けておいたが、gifのほうがいいかもしれない. 
 
-![demo 1](img\demo1.png)
+![demo 1](img/demo1.png)
 
 ## How it Works
 
