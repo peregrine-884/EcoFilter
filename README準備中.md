@@ -2,7 +2,7 @@
 
 ## Introduction
  We have developed **an intelligent trash bin** equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.
- *(動作してるgif)*
+![動作デモGIF](img/intro2.gif)
 
  This machine utilizes deep learning from YOLOv5 to detect PET bottles, labels, and caps. In this project, we created an original dataset consisting of various PET bottles with labels or caps, as well as those without such decorations. Additionally, we programmed the Jetson Nano to control a servo motor, allowing the machine to remove bottles with decorations.
 
@@ -61,10 +61,10 @@ Next, we can see the screen below.<br>
 ![set up pin 1](https://jetsonhacks.com/wp-content/uploads/2020/05/JetsonIO-Main.png)
 
 * Select Configure 40-pin expansion header<br>
-![set up pin 2](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F72479%2F31475dfb-971c-d188-8cc0-2248d7af5eaf.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=38b3d4d323cc7c0fe880b5c54f6c9752)
+![set up pin 2](img/set_up_pin2.avif)
 
 * Select pwm0, pwm2. (push Shift button)<br>
-![set up pin 3](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F72479%2F37f231e4-2af1-6f70-043d-07255e96bf4b.png?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=705d540e7e1663a309c325d20cfa671e)
+![set up pin 3](img/set_up_pin3.avif)
 
 * Last, select Save and reboot reconfigure pins<br>
 You can check that setting up successes with the command `$ ls -l /boot/*.dtb` and weather new .dtb file is created or not.
@@ -92,9 +92,9 @@ Cut the plastic sheet into several rectangular sizes. Then, use instant glue to 
 As shown in the following image, make a hole in the cardboard and insert the cylinder, securing it with tape at the **top of the hole**.<br>
 *(筒の写真)　下敷きの切り分けるサイズを指定*<br>
 To prevent light from entering the inside of the cylinder, attach a board made of cardboard or similar material, as shown in the next image.<br>
-*[hardware 3](受口の周囲の遮光板の画像)*<br>
+*[hardware 3](img/hardware3.png)*<br>
 Adjust the position of the camera and the cylinder so that the entire cylinder fits within the camera's field of view.<br>
-*[hardware 4](筒が画角に収まっている様子の画像 )*<br>
+*[hardware 4](img/hardware4.png)*<br>
 We attached a wood bar approximately ~ cm long to the servo motor. Adjust **the lengths of the cylinder's top and bottom surfaces**, as well as **the length of the wooden rod**, to ensure it can sufficiently push up and eject a 500ml PET bottle.<br>
 
 As shown in the next image, wooden and metal parts are attached to the trash bin. We cut the wooden boards to a certain size.<br>
@@ -234,7 +234,7 @@ $ python3 camera.py
 After this, some logs output at terminal and be written ~~“start ”~~準備が完了したログをターミナルに表示させたい。
 ターミナルの画像を貼り付けたい. Then you can use our intelligent trash box. Try to insert some plastic bottles. Please note that you shouldn’t insert a new bottle while this trash box is processing a bottle you entered. If all goes well, you should see the plastic bottle putting in the box or putting out ~~from the box~~画像を張り付けておいたが、gifのほうがいいかもしれない. 
 
-![demo 1](C:\Users\tatit\Documents\work\jikken3\img\demo1.png)
+![demo 1](img\demo1.png)
 
 ## How it Works
 
