@@ -1,7 +1,7 @@
 # Intelligent Trash Bin with AI Technology
 
 ## Introduction
- We have developed **an intelligent trash bin** equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.
+ We have developed **an intelligent trash bin** equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.<br>
 ![動作デモGIF](img/intro2.gif)
 
  This machine utilizes deep learning from YOLOv5 to detect PET bottles, labels, and caps. In this project, we created an original dataset consisting of various PET bottles with labels or caps, as well as those without such decorations. Additionally, we programmed the Jetson Nano to control a servo motor, allowing the machine to remove bottles with decorations.
@@ -9,7 +9,7 @@
 ## Table of contents
 1. [Background](#background)
 1. [Requirements](#requirements)
-1. [Set up](#set-up) *(写真付きでハードウェアの作り方)*
+1. [Set up](#set-up)
 2. [File details](#file-details)
 3. [Running the application](#running-application)
 4. [How it works](#how-it-works)
@@ -23,12 +23,21 @@ In waste management facilities, collected PET bottles undergo a sorting process 
 
 ## Requirements
 * Hardware
-    * Jetson nano
-    * Web camera
-    * Servo motor
-    * Trash box
-    * Mini light
-    * SD card 
+    * Jetson nano × 1
+    * Web camera × 1
+    * [FLASH HOBBY 45KG Coreless servo motor 8.4V](https://www.amazon.co.jp/dp/B09W4SZNCG/ref=sspa_dk_detail_2?pd_rd_i=B09W4SZNCG&pd_rd_w=JRDh4&content-id=amzn1.sym.f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_p=f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_r=1JKFW3EMHH3JNZ7M665W&pd_rd_wg=hcBMZ&pd_rd_r=7afb22f4-2fd2-4c27-ace7-4ecac3632113&s=hobby&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw&th=1) × 1
+    * [リサイクル トラッシュ ペットボトル 40リットル (trash box for plastic bottle: 40L)](https://www.amazon.co.jp/dp/B015DI2AB0?ref_=cm_sw_r_apin_dp_6FSJC40KD1N69Q2FXNX0&language=ja-JP&th=1) × 1
+    * Wood plate 
+    * Plastic sheet × 2?
+    * Screw × ?
+    * Plate strap × 1
+    * (板に吸盤がついててカメラ固定するのに使ったやつ)
+    * Cardboard
+    * Mini light × 1
+    * SD card × 1
+    * Jumper wires  male to female × ?
+    * Electric screwdriver
+    * Saw
 * Software *(バージョンのチェックを実機でする)*
     * Python==3.6.8
 	* Ubuntu20.04
@@ -86,24 +95,50 @@ $ pip install -r requirements.txt
 ```
 
 ### Hardware
-In constructing this machine, we covered a trash box with cardboard on. Then, we installed a **camera**, **servo motor**, **mini light**, and **Jetson Nano 2GB** at several positions as demonstrated in the images below.<br>
+**Cardboard Selection**
 
-Cut the plastic sheet into several rectangular sizes. Then, use instant glue to fix them into a cylindrical shape.<br>
-As shown in the following image, make a hole in the cardboard and insert the cylinder, securing it with tape at the **top of the hole**.<br>
-*(筒の写真)　下敷きの切り分けるサイズを指定*<br>
-To prevent light from entering the inside of the cylinder, attach a board made of cardboard or similar material, as shown in the next image.<br>
-*[hardware 3](img/hardware3.png)*<br>
-Adjust the position of the camera and the cylinder so that the entire cylinder fits within the camera's field of view.<br>
-*[hardware 4](img/hardware4.png)*<br>
-We attached a wood bar approximately ~ cm long to the servo motor. Adjust **the lengths of the cylinder's top and bottom surfaces**, as well as **the length of the wooden rod**, to ensure it can sufficiently push up and eject a 500ml PET bottle.<br>
+Our project involves covering the trash bin lid with a cardboard box. This cardboard box has the following features:
 
-As shown in the next image, wooden and metal parts are attached to the trash bin. We cut the wooden boards to a certain size.<br>
-*(上側の段ボール、蓋を取り外した状態の画像)　木の板のサイズ（金属棒のサイズ）指定*<br>
-The top half of the trash bin is modified to be easily removable, as shown in the following image. Screws are inserted into the lid of the trash bin, and grooves are made in the body of the bin to accommodate the screws. This allows the top of the trash bin to be lifted relatively easily to open it.<br>
-*(蓋に刺したねじや本体に作った溝の様子の画像)*<br>
-Holes are drilled at specific locations on the body of the trash bin. The power cord of the Jetson Nano 2GB is passed through these holes to connect to the power supply.<br>
-*(本体に開けた穴の画像)*<br>
+1. **Prevention of External Conditions**:
+    - It prevents external conditions such as weather and time of day from affecting the accuracy of the PET bottle image recognition.
+2. **Size Adjustment**:
+    - The cardboard box completely covers the lid. The length extends " " cm beyond the lid, and the height from the bottom of the trash bin is " " cm.
+    - The length ensures space for placing the Jetson Nano, while the height is necessary to keep the discarded PET bottles within the camera's field of view.
 
+**Modifications to the Trash Bin Lid**
+
+We have made the following improvements to the trash bin lid:
+
+1. **Board Installation**:
+    - Some boards are installed on the lid to accommodate the Jetson Nano and motor.<br>
+    ![Arrangement of various small parts]()
+    - The board is secured to the lid using screws and further stabilized with a Steel Restraint Strap to the sides of the lid.
+2. **Lid Improvement**:
+    - Screws securing the board and lid penetrate part of the base of the trash bin, making the lid inseparable in its original design.
+    - We created a vertical groove at the bottom of the trash bin, as shown in the photo, allowing the lid and base to be separated and facilitating smooth removal of the contents.<br>
+    ![a vertical groove at the bottom of the trash bin]()
+
+**Camera Installation**
+
+1. **Cylinder Creation**:
+    - Create a cylinder from a plastic sheet large enough to fit a PET bottle.
+    ![The cylinder for the holding area]()
+2. **Making a Hole**:
+    - Cut a square hole in the front of the cardboard and install the cylinder.
+    - The cylinder is installed at an angle of " " degrees.
+3. **Camera Positioning**:
+    - Adjust the camera position so that the entire cylinder fits within the camera's field of view.
+    - Install a baffle outside the intake to prevent light from entering.
+    ![The baffle to prevent light from entering]()
+
+**Installation of Various Components**
+
+1. **Installation of Motor and Light**:
+    - Secure the motor and light to the cardboard and connect them to the Jetson Nano.
+    ![The motor and light installed on trash can lid]()
+    - Adjust the motor's angle of movement, the length of the rod, and the dimensions of the cylinder to ensure proper holding, ejection, and acceptance of the PET bottles.
+2. **Power Cord Installation**:
+    - Once the Jetson Nano is installed, drill a hole at the bottom of the trash bin to pass through the power cord.
 
 ## File details
 ```
@@ -241,6 +276,7 @@ After this, some logs output at terminal and be written ~~“start ”~~準備�
 This application leverages YOLOv5 on the Jetson Nano 2GB, optimizing for rapid object detection within the constraints of limited memory. The primary focus is on processing video feed from a camera to detect three key objects: plastic bottles, their labels, and caps. Based on the detection of these items, the system determines whether a plastic bottle is recyclable. If deemed recyclable, the bottle is accepted by the trash bin; otherwise, a motor mechanism ejects it from the bin.
 
 *(Diagram or photograph illustrating the detection)*
+![Examples of non-recyclable plastic bottles](img/how_work1.png)
 
 Detailed Process:
 1. **Initialization**: The Jetson Nano and application are started, ready to process incoming video feed.
@@ -267,7 +303,7 @@ Our design incorporates a specialized ejection mechanism that leverages a combin
 These design choices are central to the Intelligent Trash Bin's ability to differentiate and eject non-recyclable PET bottles. By fine-tuning the physical components and their interactions, we've achieved a system that not only automates waste segregation but does so with high efficiency and reliability.
 
 ## Data Collection
-To accurately recognize plastic bottles, caps, and labels, we undertook a comprehensive data collection process. Our goal was to gather images that reflect the variety of ways a plastic bottle can appear when introduced into the trash bin. We created **a holding area** at the trash bin's entrance, made from transparent plastic sheets, to ensure bottles remained in place during image capture. ~~The camera was positioned to capture the entire holding area within its field of view. *(カメラの位置の詳しく解説をsetupで)*
+To accurately recognize plastic bottles, caps, and labels, we undertook a comprehensive data collection process. Our goal was to gather images that reflect the variety of ways a plastic bottle can appear when introduced into the trash bin. We created **a holding area** at the trash bin's entrance, made from transparent plastic sheets, to ensure bottles remained in place during image capture. The camera was positioned to capture the entire holding area within its field of view. *
 
 Collection Procedure:
 1. Preparing the Bottles: We started with a collection of approximately 150 plastic bottles in various conditions. Instead of preparing separate groups of bottles with and without labels and caps, we utilized the same set of bottles for multiple stages of data collection. Initially, we photographed each bottle in its current state, capturing images of bottles with labels and caps intact. Subsequently, we removed the caps from these bottles and took additional photographs. Finally, we removed both the labels and caps, capturing images of the bottles in a completely unadorned state. This method allowed us to create a diverse dataset from a fixed number of bottles, ensuring a wide range of conditions were represented in our training data.
@@ -281,11 +317,7 @@ Collection Procedure:
 5. Usage: The annotated data will be utilized for training the YOLOv5 model, enabling our application to correctly detect plastic bottles, labels, and caps. This is crucial for the automatic segregation of recyclable materials, improving recycling efficiency.
 
 ## Training YOLOv5
-*(
-足りない情報: 
-    Google Colaboratoryで使用した具体的なコードやコマンドラインの例がない。実際の学習プロセスを理解するためには、実行したスクリプトやコマンドの詳細が有益です
-    学習にかかった時間や、使用したGPUの種類など、学習環境に関する具体的な情報が不足しています。これらの情報は、プロジェクトの再現性や、読者が同様の学習環境を設定する際の参考になります。
-)*
+*Google Colaboratoryで使用した具体的なコードやコマンドラインの例がない。*
 
 We conducted transfer learning using **YOLOv5** on our dataset. Our annotations were initially in the Pascal VOC XML format, which we converted to the YOLO format for training purposes. Unlike the typical approach using Docker environments for machine learning tasks, we utilized **Google Colaboratory** for our training process. This platform allowed us to leverage its powerful GPUs for training, significantly speeding up the process. Here's an overview of the steps we followed:
 
