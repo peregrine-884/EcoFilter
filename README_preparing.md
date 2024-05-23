@@ -9,14 +9,13 @@
 ## Table of contents
 1. [Background](#background)
 1. [Requirements](#requirements)
-1. [Set up](#set-up)
-2. [File details](#file-details)
-3. [Running the application](#running-application)
-4. [How it works](#how-it-works)
-4. [How the Intelligent Trash Bin Ejects PET Bottles](#how-the-intelligent-trash-bin-ejects-pet-bottles)
-5. [Data collection](#data-collection)
-6. [Training yolov5](#training-yolov5)
-7. [Future direction](#future-directions)
+1. [Set up](#set-up)<!-- 2. [File details](#file-details) -->
+1. [Running the application](#running-application)
+1. [How it works](#how-it-works)
+1. [How the Intelligent Trash Bin Ejects PET Bottles](#how-the-intelligent-trash-bin-ejects-pet-bottles)
+1. [Data collection](#data-collection)
+1. [Training yolov5](#training-yolov5)
+1. [Future direction](#future-directions)
 
 ## Background
 In waste management facilities, collected PET bottles undergo a sorting process where labels, caps, and contaminated bottles are separated to recycle clean PET bottles. This sorting is often performed manually, which is labor-intensive. By utilizing this smart trash bin, the workload at these facilities can be significantly reduced.
@@ -27,15 +26,13 @@ In waste management facilities, collected PET bottles undergo a sorting process 
     * Web camera × 1
     * [FLASH HOBBY 45KG Coreless servo motor 8.4V](https://www.amazon.co.jp/dp/B09W4SZNCG/ref=sspa_dk_detail_2?pd_rd_i=B09W4SZNCG&pd_rd_w=JRDh4&content-id=amzn1.sym.f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_p=f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_r=1JKFW3EMHH3JNZ7M665W&pd_rd_wg=hcBMZ&pd_rd_r=7afb22f4-2fd2-4c27-ace7-4ecac3632113&s=hobby&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw&th=1) × 1
     * [リサイクル トラッシュ ペットボトル 40リットル (trash box for plastic bottle: 40L)](https://www.amazon.co.jp/dp/B015DI2AB0?ref_=cm_sw_r_apin_dp_6FSJC40KD1N69Q2FXNX0&language=ja-JP&th=1) × 1
-    * Wood plate 
-    * Plastic sheet × 2?
-    * Screw × ?
-    * Plate strap × 1
+    * SD card(128?64?) × 1
+    * Strate plate strap(長さ) × 1
     * (板に吸盤がついててカメラ固定するのに使ったやつ)
-    * Cardboard
     * Mini light × 1
-    * SD card × 1
-    * Jumper wires  male to female × ?
+    * Other component:&nbsp; Wood plate,&nbsp; Plastic sheet,&nbsp; Screw,&nbsp; Wood screws,&nbsp; Cardboard,&nbsp; Jumpe wires (male to female)  
+    <!-- Wood plate, Plastic sheet × 2?, Screw × ?, Cardboard, Jumper wires  male to female × 12? -->
+* Hand tools and fabrication machines
     * Electric screwdriver
     * Saw
 * Software *(バージョンのチェックを実機でする)*
@@ -58,6 +55,9 @@ In waste management facilities, collected PET bottles undergo a sorting process 
     5. Insert the SD card in your Jetson Nano and enjoy.
     6. Password: jetson
 
+
+*swapもしてた*
+
 * Next, you must **set up PWM control pin** in Jetson nano to operate a servo motor. On terminal, input next commands.<br>
 References:<br>
 [SPI on Jetson – Using Jetson-IO](https://jetsonhacks.com/2020/05/04/spi-on-jetson-using-jetson-io/)<br>
@@ -66,14 +66,21 @@ References:<br>
 ```
 $ sudo /opt/nvidia/jetson-io/jetson-io.py
 ```
-Next, we can see the screen below.<br>
-![set up pin 1](https://jetsonhacks.com/wp-content/uploads/2020/05/JetsonIO-Main.png)
+
+* Next, we can see the screen below.<br>
+<div style="text-align: center;">
+<img src="img/set_up_pin1.png" height="25%" width="35%">
+</div>
 
 * Select Configure 40-pin expansion header<br>
-![set up pin 2](img/set_up_pin2.avif)
+<div style="text-align: center;">
+<img src="img/set_up_pin2.avif" height="25%" width="35%">
+</div>
 
 * Select pwm0, pwm2. (push Shift button)<br>
-![set up pin 3](img/set_up_pin3.avif)
+<div style="text-align: center;">
+<img src="img/set_up_pin3.avif" height="25%" width="35%">
+</div>
 
 * Last, select Save and reboot reconfigure pins<br>
 You can check that setting up successes with the command `$ ls -l /boot/*.dtb` and weather new .dtb file is created or not.
@@ -111,7 +118,7 @@ We have made the following improvements to the trash bin lid:
 
 1. **Board Installation**:
     - Some boards are installed on the lid to accommodate the Jetson Nano and motor.<br>
-    ![Arrangement of various small parts]()
+    ![Arrangement of various small parts]()<!--  -->
     - The board is secured to the lid using screws and further stabilized with a Steel Restraint Strap to the sides of the lid.
 2. **Lid Improvement**:
     - Screws securing the board and lid penetrate part of the base of the trash bin, making the lid inseparable in its original design.
@@ -139,7 +146,7 @@ We have made the following improvements to the trash bin lid:
     - Adjust the motor's angle of movement, the length of the rod, and the dimensions of the cylinder to ensure proper holding, ejection, and acceptance of the PET bottles.
 2. **Power Cord Installation**:
     - Once the Jetson Nano is installed, drill a hole at the bottom of the trash bin to pass through the power cord.
-
+<!-- 
 ## File details
 ```
 experiment-3
@@ -149,116 +156,26 @@ experiment-3
 ├── README.md
 ├── README.zh-CN.md
 ├── benchmarks.py
-├── camera.py
+├── camera.py       : Run Intelligent Trash Bin
 ├── createModel.py
 ├── detect.py
 ├── export.py
 ├── hubconf.py
 ├── jetsoncam.py
-├── label_Inflated_water.py
+├── label_Inflated_water.py : Infrate the images for machine learning
 ├── models
-│   ├── __init__.py
-│   ├── common.py
-│   ├── experimental.py
-│   ├── hub
-│   │   ├── anchors.yaml
-│   │   ├── yolov3-spp.yaml
-│   │   ├── yolov3-tiny.yaml
-│   │   ├── yolov3.yaml
-│   │   ├── yolov5-bifpn.yaml
-│   │   ├── yolov5-fpn.yaml
-│   │   ├── yolov5-p2.yaml
-│   │   ├── yolov5-p34.yaml
-│   │   ├── yolov5-p6.yaml
-│   │   ├── yolov5-p7.yaml
-│   │   ├── yolov5-panet.yaml
-│   │   ├── yolov5l6.yaml
-│   │   ├── yolov5m6.yaml
-│   │   ├── yolov5n6.yaml
-│   │   ├── yolov5s-LeakyReLU.yaml
-│   │   ├── yolov5s-ghost.yaml
-│   │   ├── yolov5s-transformer.yaml
-│   │   ├── yolov5s6.yaml
-│   │   └── yolov5x6.yaml
-│   ├── segment
-│   │   ├── yolov5l-seg.yaml
-│   │   ├── yolov5m-seg.yaml
-│   │   ├── yolov5n-seg.yaml
-│   │   ├── yolov5s-seg.yaml
-│   │   └── yolov5x-seg.yaml
-│   ├── tf.py
-│   ├── yolo.py
-│   ├── yolov5l.yaml
-│   ├── yolov5m.yaml
-│   ├── yolov5n.yaml
-│   ├── yolov5s.yaml
-│   └── yolov5x.yaml
-├── move_in.py
-├── move_out.py
-├── move_static.py
-├── picture.py
-├── recode.py
+├── move_in.py      : Put plastic bottle into this trash bin
+├── move_out.py     : Eject plastic bottle out of this trash bin
+├── move_static.py  : Stay holding plastic bottle with holding area 
+├── picture.py      : Obtaining images from the camera
+├── recode.py       : Save the video
 ├── requirements.txt
 ├── setup.cfg
 ├── train.py
 ├── tutorial.ipynb
 ├── utils
-│   ├── __init__.py
-│   ├── activations.py
-│   ├── augmentations.py
-│   ├── autoanchor.py
-│   ├── autobatch.py
-│   ├── aws
-│   │   ├── __init__.py
-│   │   ├── mime.sh
-│   │   ├── resume.py
-│   │   └── userdata.sh
-│   ├── callbacks.py
-│   ├── dataloaders.py
-│   ├── docker
-│   │   ├── Dockerfile
-│   │   ├── Dockerfile-arm64
-│   │   └── Dockerfile-cpu
-│   ├── downloads.py
-│   ├── flask_rest_api
-│   │   ├── README.md
-│   │   ├── example_request.py
-│   │   └── restapi.py
-│   ├── general.py
-│   ├── google_app_engine
-│   │   ├── Dockerfile
-│   │   ├── additional_requirements.txt
-│   │   └── app.yaml
-│   ├── loggers
-│   │   ├── __init__.py
-│   │   ├── clearml
-│   │   │   ├── README.md
-│   │   │   ├── __init__.py
-│   │   │   ├── clearml_utils.py
-│   │   │   └── hpo.py
-│   │   ├── comet
-│   │   │   ├── README.md
-│   │   │   ├── __init__.py
-│   │   │   ├── comet_utils.py
-│   │   │   └── hpo.py
-│   │   └── wandb
-│   │       ├── __init__.py
-│   │       └── wandb_utils.py
-│   ├── loss.py
-│   ├── metrics.py
-│   ├── plots.py
-│   ├── segment
-│   │   ├── __init__.py
-│   │   ├── augmentations.py
-│   │   ├── dataloaders.py
-│   │   ├── general.py
-│   │   ├── loss.py
-│   │   ├── metrics.py
-│   │   └── plots.py
-│   ├── torch_utils.py
-│   └── triton.py
 └── val.py
-```
+``` -->
 
 ## Running application
 After setting up about software and hardware preparation, Input below command and wait a several minutes.
@@ -273,10 +190,12 @@ After this, some logs output at terminal and be written ~~“start ”~~準備�
 
 ## How it Works
 
-This application leverages YOLOv5 on the Jetson Nano 2GB, optimizing for rapid object detection within the constraints of limited memory. The primary focus is on processing video feed from a camera to detect three key objects: plastic bottles, their labels, and caps. Based on the detection of these items, the system determines whether a plastic bottle is recyclable. If deemed recyclable, the bottle is accepted by the trash bin; otherwise, a motor mechanism ejects it from the bin.
+This application leverages YOLOv5 on the Jetson Nano 2GB, optimizing for rapid object detection within the constraints of limited memory. The primary focus is on processing video feed from a camera to detect three key objects: plastic bottles, their labels, and caps. Based on the detection of these items, the system determines whether a plastic bottle is recyclable. If deemed recyclable, the bottle is accepted by the trash bin; otherwise, a motor mechanism ejects it from the bin.<br>
 
-*(Diagram or photograph illustrating the detection)*
-![Examples of non-recyclable plastic bottles](img/how_work1.png)
+The following figure illustrates a scheme for the method:<br>
+<div style="text-align: center;">
+<img src="img/how_it_works.png" height="80%" width="80%">
+</div>
 
 Detailed Process:
 1. **Initialization**: The Jetson Nano and application are started, ready to process incoming video feed.
@@ -300,6 +219,11 @@ Our design incorporates a specialized ejection mechanism that leverages a combin
 
 * **Strategic Intake Placement**: The intake is created by cutting a portion of the cardboard that encases the trash bin and inserting the adjusted plastic cylinder. A crucial innovation here is the placement of the intake with tape on the upper side rather than the lower side of the cut-out in the cardboard. This placement makes it easier for the intake to lift during the ejection process, facilitating smoother discharge of the PET bottles.
 
+The below are gifs discharging plastic bottle (left) and placing plastic bottle inside (right). 
+
+![eject_bottle](img/eject_bottle.gif)
+![accept_bottle](img/accept_bottle.gif)
+
 These design choices are central to the Intelligent Trash Bin's ability to differentiate and eject non-recyclable PET bottles. By fine-tuning the physical components and their interactions, we've achieved a system that not only automates waste segregation but does so with high efficiency and reliability.
 
 ## Data Collection
@@ -310,7 +234,8 @@ Collection Procedure:
 
 2. Capturing Images: The photographic process was carefully designed to avoid detection inaccuracies due to the orientation of bottle insertion. For each stage of bottle preparation (with labels and caps, with caps removed, and with both removed), we captured images in two orientations: cap-first and cap-last. This approach ensured our model would learn to recognize bottles irrespective of how they were introduced into the bin. Each bottle's various states were documented from multiple angles to further enhance the model's accuracy and robustness in real-world scenarios.
 
-3. Annotation Process: Each image was annotated to identify the entire bottle, label, and cap positions using the VoTT (Visual Object Tagging Tool). The annotations were initially saved in the Pascal VOC format (XML output), ~~which were later converted to the YOLOv5 format through web tools for compatibility~~.Pascal VOCからyolov5形式に変換する手順をもう少し詳しく
+3. Annotation Process: Each image was annotated to identify the entire bottle, label, and cap positions using the [VoTT](https://github.com/Microsoft/VoTT/releases). The annotations were initially saved in the Pascal VOC format (XML output), which were later converted to the YOLOv5 format through web tools ([Convert Pascal VOC Format to YOLO Format](https://github.com/rihib/p2y-converter)) for compatibility. <br>
+
 
 4. Image Augmentation: To enhance our dataset, we manipulated the brightness of images for augmentation, effectively increasing our dataset without needing to physically collect more samples. This process resulted in approximately 1000 annotated images ready for training.
 
