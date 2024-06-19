@@ -28,6 +28,7 @@ def judge_pet(results, objs):
     return any(model.names[int(cls)] in objs for cls in detected_classes)
 
 while True:
+    print("start")
     move_normal()
 
     # 画像取得
