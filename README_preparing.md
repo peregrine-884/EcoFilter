@@ -99,8 +99,7 @@ Our project involves covering the trash bin lid with a cardboard box. This cardb
 1. **Board Installation**:
     - Two boards are installed on the lid to accommodate the Jetson Nano and motor.<br>
     - The board is secured to the lid using screws and further stabilized with a Steel Restraint Strap to the sides of the lid.
-    <a id="Board_Installation"></a><div><img src="img/board_install_2_1.jpg" height="30%" width="30%">
-    <img src="img/board_install_2_2_cut.jpg" height="30%" width="30%"></div>
+    <a id="Board_Installation"></a><div><img src="img/board_install_2_1.jpg" height="30%" width="30%"><img src="img/board_install_2_2_cut.jpg" height="30%" width="30%"></div>
     ※Both Arrow:Position of Board &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Arrow:Position of (1)Motor, (2)Web Camera and (3)Mini light<br>
 2. **Lid Improvement**:
     - Screws securing the board and lid penetrate part of the base of the trash bin, making the lid inseparable in its original design.
