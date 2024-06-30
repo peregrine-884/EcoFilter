@@ -170,8 +170,7 @@ Our design incorporates a specialized ejection mechanism that leverages a combin
 
 The below are gifs discharging plastic bottle (left) and placing plastic bottle inside (right). 
 
-![eject_bottle](/img/eject_bottle.gif)
-![accept_bottle](/img/accept_bottle.gif)
+|![eject_bottle](/img/eject_bottle.gif)|![accept_bottle](/img/accept_bottle.gif)|
 
 These design choices are central to the Intelligent Trash Bin's ability to differentiate and eject non-recyclable PET bottles. By fine-tuning the physical components and their interactions, we've achieved a system that not only automates waste segregation but does so with high efficiency and reliability.
 
