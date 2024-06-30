@@ -105,7 +105,7 @@ Our project involves covering the trash bin lid with a cardboard box. This cardb
 <table>
 <tr>
 <td><div><img src="/img/board_install_2_1.jpg" height="30%" width="30%"></div></td>
-<td><img src="img/board_install_2_2_cut.jpg"></td>
+<td><img src="img/board_install_2_2_cut.jpg" height="30%" width="30%"></td>
 </tr>
 </table>
 ※Both Arrow:Position of Board<br>
