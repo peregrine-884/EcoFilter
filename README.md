@@ -104,7 +104,7 @@ Our project involves covering the trash bin lid with a cardboard box. This cardb
 <a id="Board_Installation"></a>
 <table>
 <tr>
-<td><img src="/img/board_install_2_1.jpg" height="30%" width="30%"></td>
+<td><div><img src="/img/board_install_2_1.jpg" height="30%" width="30%"></div></td>
 <td><img src="img/board_install_2_2_cut.jpg"></td>
 </tr>
 </table>
