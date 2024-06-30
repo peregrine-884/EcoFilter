@@ -1,5 +1,3 @@
-# Intelligent Trash Bin with AI Technology
-
 ## Introduction
  We have developed **an intelligent trash bin** equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.<br>
 ![動作デモGIF](img/intro2.gif)
@@ -9,7 +7,7 @@
 ## Table of contents
 1. [Background](#background)
 1. [Requirements](#requirements)
-1. [Set up](#set-up)<!-- 2. [File details](#file-details) -->
+1. [Set up](#set-up)
 1. [Running the application](#running-application)
 1. [How it works](#how-it-works)
 1. [How the Intelligent Trash Bin Ejects PET Bottles](#how-the-intelligent-trash-bin-ejects-pet-bottles)
@@ -18,75 +16,51 @@
 1. [Future direction](#future-directions)
 
 ## Background
-In waste management facilities, collected PET bottles undergo a sorting process where labels, caps, and contaminated bottles are separated to recycle clean PET bottles. This sorting is often performed manually, which is labor-intensive. By utilizing this smart trash bin, the workload at these facilities can be significantly reduced.
+In waste management facilities, collected PET bottles undergo a sorting process where labels, caps, and contaminated bottles are separated to recycle clean PET bottles. This sorting is often performed manually, which is labor-intensive. By utilizing this smart trash bin, the workload at these facilities can be significantly reduced.<br>
+<div style="text-align: left;">
+<img src="img/background1.jpg" height="30%" width="40%">
+</div>
+
+At the waste processing facility, plastic bottles are being sorted by hand<br>
+References : [ペットボトルの分別について | 北見市](https://www.city.kitami.lg.jp/administration/life/detail.php?content=11965) 
 
 ## Requirements
 * Hardware
-    * Jetson nano × 1
-    * Web camera × 1
-    * [FLASH HOBBY 45KG Coreless servo motor 8.4V](https://www.amazon.co.jp/dp/B09W4SZNCG/ref=sspa_dk_detail_2?pd_rd_i=B09W4SZNCG&pd_rd_w=JRDh4&content-id=amzn1.sym.f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_p=f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_r=1JKFW3EMHH3JNZ7M665W&pd_rd_wg=hcBMZ&pd_rd_r=7afb22f4-2fd2-4c27-ace7-4ecac3632113&s=hobby&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw&th=1) × 1
-    * [リサイクル トラッシュ ペットボトル 40リットル (trash box for plastic bottle: 40L)](https://www.amazon.co.jp/dp/B015DI2AB0?ref_=cm_sw_r_apin_dp_6FSJC40KD1N69Q2FXNX0&language=ja-JP&th=1) × 1
-    * SD card(128?64?) × 1
-    * Strate plate strap(長さ) × 1
-    * (板に吸盤がついててカメラ固定するのに使ったやつ)
-    * Mini light × 1
-    * Other component:&nbsp; Wood plate,&nbsp; Plastic sheet,&nbsp; Screw,&nbsp; Wood screws,&nbsp; Cardboard,&nbsp; Jumpe wires (male to female)  
-    <!-- Wood plate, Plastic sheet × 2?, Screw × ?, Cardboard, Jumper wires  male to female × 12? -->
+    * Jetson nano 2GB
+    * [C270n HD Web Camera](https://www.logicool.co.jp/ja-jp/products/webcams/hd-webcam-c270n.960-001265.html)
+    * [FLASH HOBBY 45KG Coreless servo motor 8.4V](https://www.amazon.co.jp/dp/B09W4SZNCG/ref=sspa_dk_detail_2?pd_rd_i=B09W4SZNCG&pd_rd_w=JRDh4&content-id=amzn1.sym.f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_p=f293be60-50b7-49bc-95e8-931faf86ed1e&pf_rd_r=1JKFW3EMHH3JNZ7M665W&pd_rd_wg=hcBMZ&pd_rd_r=7afb22f4-2fd2-4c27-ace7-4ecac3632113&s=hobby&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw&th=1)
+    * [trash box for plastic bottle 40L](https://www.amazon.co.jp/dp/B015DI2AB0?ref_=cm_sw_r_apin_dp_6FSJC40KD1N69Q2FXNX0&language=ja-JP&th=1)
+    * [SD card(256GB)](https://www.amazon.co.jp/dp/B0B3R1XZJR?psc=1&ref=ppx_yo2ov_dt_b_product_details)
+    * [Compact light with mobile battery](https://amzn.asia/d/0ieKPQaj)
+    * Other component:&nbsp; Wood plate,&nbsp; Plastic sheet,&nbsp; Screw,&nbsp; Wood screws,&nbsp; Cardboard,&nbsp; Jumpe wires (male to female),&nbsp;Strate plate strap  
 * Hand tools and fabrication machines
     * Electric screwdriver
     * Saw
-* Software *(バージョンのチェックを実機でする)*
-    * Python==3.6.8
+* Software
+    * Python==3.8.10
 	* Ubuntu20.04
-    * torch
-	* cuda
     * Yolov5
-    * RPi.GPIO
 
 ## Set up
 ### Software
-* First, you must **install Ubuntu 20.04 OS image** for Jetson Nano at URL:
+- First, you must **install Ubuntu 20.04 OS image** for Jetson Nano at URL:
 [Jetson Nano with Ubuntu 20.04 OS image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image)
 
-    1. Get a 32 GB (minimal) SD card to hold the image.
-    2. Download the image JetsonNanoUb20_3b.img.xz (8.7 GByte!) from our [Sync](https://ln5.sync.com/dl/403a73c60/bqppm39m-mh4qippt-u5mhyyfi-nnma8c4t).
-    3. Flash the image on the SD card with the [Imager](https://www.raspberrypi.org/software/) or [balenaEtcher](https://www.balena.io/etcher/). 
-    4. According to [issue #17](https://github.com/Qengineering/Jetson-Nano-image/issues/17#) only flash the xz directly, not an unzipped img image.
-    5. Insert the SD card in your Jetson Nano and enjoy.
-    6. Password: jetson
-
-
-*swapもしてた*
-
-* Next, you must **set up PWM control pin** in Jetson nano to operate a servo motor. On terminal, input next commands.<br>
+Next, you must **set up PWM control pin** in Jetson nano to operate a servo motor. <br>
 References:<br>
 [SPI on Jetson – Using Jetson-IO](https://jetsonhacks.com/2020/05/04/spi-on-jetson-using-jetson-io/)<br>
 [JetPack 4.3 (r32.3.1) で追加された Jetson-IO tool を使用して Pinmux テーブルを設定してみた。](https://qiita.com/kitazaki/items/a445994f1f46a1b15f78)<br>
- 
-```
-$ sudo /opt/nvidia/jetson-io/jetson-io.py
-```
 
-* Next, we can see the screen below.<br>
-<div style="text-align: center;">
-<img src="img/set_up_pin1.png" height="25%" width="35%">
-</div>
+* Refer to the following website and follow the steps shown below
+    - Input ```$ sudo /opt/nvidia/jetson-io/jetson-io.py``` on the terminal.<a id="startup_command"></a>
+    - Select Configure 40-pin expansion header.
+    - Select pwm0, pwm2.
+    - Last, select Save and reboot reconfigure pins.
 
-* Select Configure 40-pin expansion header<br>
-<div style="text-align: center;">
-<img src="img/set_up_pin2.avif" height="25%" width="35%">
-</div>
-
-* Select pwm0, pwm2. (push Shift button)<br>
-<div style="text-align: center;">
-<img src="img/set_up_pin3.avif" height="25%" width="35%">
-</div>
-
-* Last, select Save and reboot reconfigure pins<br>
 You can check that setting up successes with the command `$ ls -l /boot/*.dtb` and weather new .dtb file is created or not.
 
-
-If you can’t open jetson-io.py, you should try some fix ways. Especially, we fixed this trouble with the below commands.<br>
+**※If you can’t open jetson-io.py,**
+you should try some fix ways. Especially, we fixed this trouble with the below commands.<br>
 
 Reference:[Jetson Nano の GPIO にサーボモータをつないで制御してみる](https://wisteriahill.sakura.ne.jp/CMS/WordPress/2020/12/07/jetson-nano-gpio-servo-motor/)
 ```
@@ -94,88 +68,67 @@ cd /boot
 sudo mkdir dtb
 sudo cp *.dtb* dtb/
 ```
-Then you can try again first command.<br>
+Then you can try again [first command](#startup_command).<br>
+<br>
+
 * Last you **[clone our GitHub](https://github.com/hayato-hayashi/experiment-3)**
 ```
-$ git clone https://github.com/hayato-hayashi/experiment-3.git
+$ git clone https://github.com/hayato-hayashi/experiment-3.git(urlの名前変える)
 $ pip install -r requirements.txt
 ```
+**※Important Instructions for Installing Dependencies:**
+
+When setting up your environment using pip install -r requirements.txt, it is crucial to ensure that the installation process does not overwrite the versions of any pre-installed software that came with the operating system. To prevent this, you should appropriately comment out any conflicting package versions listed in the requirements.txt file before running the installation command. This step helps maintain system stability and compatibility with pre-installed packages.
+
+After successfully setting up the software and upon initial execution of our application, you may encounter a need for additional packages that were not previously identified. If such a situation arises, install these additional packages as required.
+<br>
 
 ### Hardware
-**Cardboard Selection**
+#### Cardboard Selection
 
 Our project involves covering the trash bin lid with a cardboard box. This cardboard box has the following features:
 
 1. **Prevention of External Conditions**:
     - It prevents external conditions such as weather and time of day from affecting the accuracy of the PET bottle image recognition.
 2. **Size Adjustment**:
-    - The cardboard box completely covers the lid. The length extends " " cm beyond the lid, and the height from the bottom of the trash bin is " " cm.
-    - The length ensures space for placing the Jetson Nano, while the height is necessary to keep the discarded PET bottles within the camera's field of view.
+    - The cardboard box completely covers the lid. The length ensures space for placing the Jetson Nano, while the height is necessary to keep the discarded PET bottles within the camera's field of view.
 
-**Modifications to the Trash Bin Lid**
-
-We have made the following improvements to the trash bin lid:
+#### Modifications to the Trash Bin Lid<br>
+ We have made the following improvements to the trash bin lid:
 
 1. **Board Installation**:
-    - Some boards are installed on the lid to accommodate the Jetson Nano and motor.<br>
-    ![Arrangement of various small parts]()<!--  -->
+    - Two boards are installed on the lid to accommodate the Jetson Nano and motor.<br>
     - The board is secured to the lid using screws and further stabilized with a Steel Restraint Strap to the sides of the lid.
+    <a id="Board_Installation"></a><div><img src="img/board_install_2_1.jpg" height="30%" width="30%">
+    <img src="img/board_install_2_2_cut.jpg" height="30%" width="30%"></div>
+    ※Both Arrow:Position of Board &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Arrow:Position of (1)Motor, (2)Web Camera and (3)Mini light<br>
 2. **Lid Improvement**:
     - Screws securing the board and lid penetrate part of the base of the trash bin, making the lid inseparable in its original design.
-    - We created a vertical groove at the bottom of the trash bin, as shown in the photo, allowing the lid and base to be separated and facilitating smooth removal of the contents.<br>
-    ![a vertical groove at the bottom of the trash bin]()
+    - For the attachment point with the board in front of the trash can, a vertical groove was made in the bottom of the trash can to allow the lid and bottom to be separated so that the contents can be removed smoothly.<br>
+    
 
-**Camera Installation**
+#### Camera Installation
 
 1. **Cylinder Creation**:
+    <div style="text-align: left;">
+    <img src="img/cylinder.png" height="30%" width="30%">
+    </div>
+    
     - Create a cylinder from a plastic sheet large enough to fit a PET bottle.
-    ![The cylinder for the holding area]()
 2. **Making a Hole**:
     - Cut a square hole in the front of the cardboard and install the cylinder.
-    - The cylinder is installed at an angle of " " degrees.
+    - The cylinder is mounted at an angle of approximately 25° downward toward the trash can.
 3. **Camera Positioning**:
-    - Adjust the camera position so that the entire cylinder fits within the camera's field of view.
+    - To stabilize the camera, use a wooden board to secure it as shown in [the photo above](#Board_Installation). Also, adjust the position of the camera so that the entire cylinder fits within its field of view.
     - Install a baffle outside the intake to prevent light from entering.
-    ![The baffle to prevent light from entering]()
-
-**Installation of Various Components**
+    
+#### Installation of Various Components
 
 1. **Installation of Motor and Light**:
-    - Secure the motor and light to the cardboard and connect them to the Jetson Nano.
-    ![The motor and light installed on trash can lid]()
+    - Secure the motor and light to the cardboard and connect them to the Jetson Nano like the picture at the section [Borard Installation](#Board_Installation).
     - Adjust the motor's angle of movement, the length of the rod, and the dimensions of the cylinder to ensure proper holding, ejection, and acceptance of the PET bottles.
 2. **Power Cord Installation**:
     - Once the Jetson Nano is installed, drill a hole at the bottom of the trash bin to pass through the power cord.
-<!-- 
-## File details
-```
-experiment-3
-├── CITATION.cff
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── README.zh-CN.md
-├── benchmarks.py
-├── camera.py       : Run Intelligent Trash Bin
-├── createModel.py
-├── detect.py
-├── export.py
-├── hubconf.py
-├── jetsoncam.py
-├── label_Inflated_water.py : Infrate the images for machine learning
-├── models
-├── move_in.py      : Put plastic bottle into this trash bin
-├── move_out.py     : Eject plastic bottle out of this trash bin
-├── move_static.py  : Stay holding plastic bottle with holding area 
-├── picture.py      : Obtaining images from the camera
-├── recode.py       : Save the video
-├── requirements.txt
-├── setup.cfg
-├── train.py
-├── tutorial.ipynb
-├── utils
-└── val.py
-``` -->
 
 ## Running application
 After setting up about software and hardware preparation, Input below command and wait a several minutes.
@@ -183,10 +136,7 @@ After setting up about software and hardware preparation, Input below command an
 $ python3 camera.py
 ```
 
-After this, some logs output at terminal and be written ~~“start ”~~準備が完了したログをターミナルに表示させたい。
-ターミナルの画像を貼り付けたい. Then you can use our intelligent trash box. Try to insert some plastic bottles. Please note that you shouldn’t insert a new bottle while this trash box is processing a bottle you entered. If all goes well, you should see the plastic bottle putting in the box or putting out ~~from the box~~画像を張り付けておいたが、gifのほうがいいかもしれない. 
-
-![demo 1](img/demo1.png)
+After this, some logs output at terminal. When ready to operate, "now active and running" will be displayed in the terminal. Then you can use our intelligent trash box. Try to insert some plastic bottles. Please note that you shouldn’t insert a new bottle while this trash box is processing a bottle you entered. If all goes well, the plastic bottle should be put into the box or taken out of the box.
 
 ## How it Works
 
@@ -227,32 +177,53 @@ The below are gifs discharging plastic bottle (left) and placing plastic bottle 
 These design choices are central to the Intelligent Trash Bin's ability to differentiate and eject non-recyclable PET bottles. By fine-tuning the physical components and their interactions, we've achieved a system that not only automates waste segregation but does so with high efficiency and reliability.
 
 ## Data Collection
-To accurately recognize plastic bottles, caps, and labels, we undertook a comprehensive data collection process. Our goal was to gather images that reflect the variety of ways a plastic bottle can appear when introduced into the trash bin. We created **a holding area** at the trash bin's entrance, made from transparent plastic sheets, to ensure bottles remained in place during image capture. The camera was positioned to capture the entire holding area within its field of view. *
+To accurately recognize plastic bottles, caps, and labels, we undertook a comprehensive data collection process. Our goal was to gather images that reflect the variety of ways a plastic bottle can appear when introduced into the trash bin. We created **a holding area** at the trash bin's entrance, made from transparent plastic sheets, to ensure bottles remained in place during image capture. The camera was positioned to capture the entire holding area within its field of view.
 
 Collection Procedure:
-1. Preparing the Bottles: We started with a collection of approximately 150 plastic bottles in various conditions. Instead of preparing separate groups of bottles with and without labels and caps, we utilized the same set of bottles for multiple stages of data collection. Initially, we photographed each bottle in its current state, capturing images of bottles with labels and caps intact. Subsequently, we removed the caps from these bottles and took additional photographs. Finally, we removed both the labels and caps, capturing images of the bottles in a completely unadorned state. This method allowed us to create a diverse dataset from a fixed number of bottles, ensuring a wide range of conditions were represented in our training data.
+1. **Preparing the Bottles**: We started with a collection of approximately 150 plastic bottles in various conditions. Instead of preparing separate groups of bottles with and without labels and caps, we utilized the same set of bottles for multiple stages of data collection. Initially, we photographed each bottle in its current state, capturing images of bottles with labels and caps intact. Subsequently, we removed the caps from these bottles and took additional photographs. Finally, we removed both the labels and caps, capturing images of the bottles in a completely unadorned state. This method allowed us to create a diverse dataset from a fixed number of bottles, ensuring a wide range of conditions were represented in our training data.
 
-2. Capturing Images: The photographic process was carefully designed to avoid detection inaccuracies due to the orientation of bottle insertion. For each stage of bottle preparation (with labels and caps, with caps removed, and with both removed), we captured images in two orientations: cap-first and cap-last. This approach ensured our model would learn to recognize bottles irrespective of how they were introduced into the bin. Each bottle's various states were documented from multiple angles to further enhance the model's accuracy and robustness in real-world scenarios.
+2. **Capturing Images**: The photographic process was carefully designed to avoid detection inaccuracies due to the orientation of bottle insertion. For each stage of bottle preparation (with labels and caps, with caps removed, and with both removed), we captured images in two orientations: cap-first and cap-last. This approach ensured our model would learn to recognize bottles irrespective of how they were introduced into the bin. Each bottle's various states were documented from multiple angles to further enhance the model's accuracy and robustness in real-world scenarios.
 
-3. Annotation Process: Each image was annotated to identify the entire bottle, label, and cap positions using the [VoTT](https://github.com/Microsoft/VoTT/releases). The annotations were initially saved in the Pascal VOC format (XML output), which were later converted to the YOLOv5 format through web tools ([Convert Pascal VOC Format to YOLO Format](https://github.com/rihib/p2y-converter)) for compatibility. <br>
+3. **Annotation Process**: Each image was annotated to identify the entire bottle, label, and cap positions using the [VoTT](https://github.com/Microsoft/VoTT/releases). The annotations were initially saved in the Pascal VOC format (XML output), which were later converted to the YOLOv5 format through web tools ([Convert Pascal VOC Format to YOLO Format](https://github.com/rihib/p2y-converter)) for compatibility. <br>
 
-
-4. Image Augmentation: To enhance our dataset, we manipulated the brightness of images for augmentation, effectively increasing our dataset without needing to physically collect more samples. This process resulted in approximately 1000 annotated images ready for training.
-
-5. Usage: The annotated data will be utilized for training the YOLOv5 model, enabling our application to correctly detect plastic bottles, labels, and caps. This is crucial for the automatic segregation of recyclable materials, improving recycling efficiency.
+4. **Image Augmentation**: To enhance our dataset, we manipulated the brightness of images for augmentation, effectively increasing our dataset without needing to physically collect more samples. This process resulted in approximately 1000 annotated images ready for training.
 
 ## Training YOLOv5
-*Google Colaboratoryで使用した具体的なコードやコマンドラインの例がない。*
+Training was performed on this dataset using **YOLOv5**. Below is a summary of the steps we followed:
 
-We conducted transfer learning using **YOLOv5** on our dataset. Our annotations were initially in the Pascal VOC XML format, which we converted to the YOLO format for training purposes. Unlike the typical approach using Docker environments for machine learning tasks, we utilized **Google Colaboratory** for our training process. This platform allowed us to leverage its powerful GPUs for training, significantly speeding up the process. Here's an overview of the steps we followed:
+**Training in Google Colaboratory**:
+1. Augment the training data.<br>
+* Adjust the paths to the image and label folders, as well as the number of images to augment, in the data augmentation program file.<br>
+Below is a image of the code from the file **label_Inflated_water.py**, which users should adjust as needed :
+<div style="text-align: left;">
+<img src="img/training1.png" height="60%" width="60%">
+</div>
 
-1. Annotation Conversion: Converted our dataset annotations from Pascal VOC's XML format to YOLO format to make them compatible with YOLOv5.
-2. Training in Google Colaboratory:
-    * Uploaded our YOLO-formatted dataset to Google Colab.
-    * Ran our transfer learning script on YOLOv5 using the Colab notebook, specifying our dataset path.
+* Next, execute the following command to augment the data.<br>
 
-This approach enabled efficient use of resources and streamlined our model training phase.
+```
+$ python3 label_Inflated_water.py
+```
+2. Run the YOLOv5 training program to obtain the best.pt file.<br>
+* Create pet.yaml. This file specifies the folder path, number and name of detection targets, and must be placed in the same folder as train.py. The following is an example of pet.yaml.
+
+```yaml
+# Dataset name
+path: data  # Path to the dataset
+train: train  # Directory where training images and labels are located
+val: valid  # Directory where validation images and labels are located
+
+# Class information
+nc: 3  # Number of classes
+names: ['cap', 'label', 'pet']  # Class names
+```
+* Execute the following command to train the model using the data you created. 
+```
+$ python train.py --batch 16 --epochs 30 --data pet.yaml --weights yolov5s.pt 
+```
+
+* The best.pt file can be obtained from train/runs/exp/weights. It can be used by placing it in the same folder as the 'startup file'. *起動ファイルのところを変えておく*
 
 ## Future directions
-The current model has been trained using approximately a hundred PET bottles collected from various locations within Gifu University's campus, resulting in a prediction capability limited to the **preferences of Gifu University students**. In the future, I plan to enhance the prediction capability by incorporating data on plastic bottle preferences from individuals across different age groups, including the elderly and children.
+The current model has been trained using approximately a hundred PET bottles collected from various locations within Gifu University's campus, resulting in a prediction capability limited to the preferences of Gifu University students. In the future, I plan to enhance the prediction capability by incorporating data on plastic bottle preferences from individuals across different age groups, including the elderly and children.
 
