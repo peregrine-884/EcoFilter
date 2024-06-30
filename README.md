@@ -1,6 +1,6 @@
 ## Introduction
  We have developed **an intelligent trash bin** equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.<br>
-![動作デモGIF](img/intro2.gif)
+![動作デモGIF](/img/intro2.gif)
 
  This machine utilizes deep learning from YOLOv5 to detect PET bottles, labels, and caps. In this project, we created an original dataset consisting of various PET bottles with labels or caps, as well as those without such decorations. Additionally, we programmed the Jetson Nano to control a servo motor, allowing the machine to remove bottles with decorations.
 
@@ -170,8 +170,8 @@ Our design incorporates a specialized ejection mechanism that leverages a combin
 
 The below are gifs discharging plastic bottle (left) and placing plastic bottle inside (right). 
 
-![eject_bottle](img/eject_bottle.gif)
-![accept_bottle](img/accept_bottle.gif)
+![eject_bottle](/img/eject_bottle.gif)
+![accept_bottle](/img/accept_bottle.gif)
 
 These design choices are central to the Intelligent Trash Bin's ability to differentiate and eject non-recyclable PET bottles. By fine-tuning the physical components and their interactions, we've achieved a system that not only automates waste segregation but does so with high efficiency and reliability.
 
