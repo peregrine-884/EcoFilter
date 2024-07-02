@@ -73,7 +73,7 @@ Then you can try again [first command](#startup_command).<br>
 
 * Last you **[clone our GitHub](https://github.com/hayato-hayashi/experiment-3)**
 ```
-$ git clone https://github.com/hayato-hayashi/experiment-3.git(urlの名前変える)
+$ git clone https://github.com/hayato-hayashi/EcoFilter.git
 $ pip install -r requirements.txt
 ```
 **※Important Instructions for Installing Dependencies:**
