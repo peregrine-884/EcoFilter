@@ -1,8 +1,8 @@
 # Introduction
- We have developed **an intelligent trash bin** equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.<br>
+ We have developed an intelligent trash bin equipped with AI technology. This trash bin automatically identifies whether a PET bottle is recyclable or not, and removes non-recyclable items. As depicted in the gif below, it accurately detects labeled or capped PET bottles.<br>
 ![動作デモGIF](/img/intro2.gif)
 
- This machine utilizes deep learning from YOLOv5 to detect PET bottles, labels, and caps. In this project, we created an original dataset consisting of various PET bottles with labels or caps, as well as those without such decorations. Additionally, we programmed the Jetson Nano to control a servo motor, allowing the machine to remove bottles with decorations.
+ This machine utilizes deep learning from YOLOv5 to detect plastic bottles, labels, and caps. In this project, we created an original dataset consisting of various PET bottles with labels or caps, as well as those without such decorations. Additionally, we programmed the Jetson Nano to control a servo motor, allowing the machine to remove bottles with decorations.
 
 # Table of contents
 1. [Background](#background)
@@ -140,7 +140,7 @@ Our project involves covering the trash bin lid with a cardboard box. This cardb
 # Running application
 After setting up about software and hardware preparation, Input below command and wait a several minutes.
 ```
-$ python3 camera.py
+$ python3 eco_filter.py
 ```
 
 After this, some logs output at terminal. When ready to operate, "now active and running" will be displayed in the terminal. Then you can use our intelligent trash box. Try to insert some plastic bottles. Please note that you shouldn’t insert a new bottle while this trash box is processing a bottle you entered. If all goes well, the plastic bottle should be put into the box or taken out of the box.
@@ -175,7 +175,7 @@ Our design incorporates a specialized ejection mechanism that leverages a combin
 * **Adjustable Plastic Cylinder**: The bin's intake is equipped with a plastic cylinder that acts as a conduit for PET bottles. We meticulously adjusted the lengths of the upper and lower surfaces of this cylinder to optimize the ejection process. This adjustment ensures that a wooden rod, swung by a servo motor, can effectively push up and eject the PET bottle from the cylinder.
 
 * **Strategic Intake Placement**: The intake is created by cutting a portion of the cardboard that encases the trash bin and inserting the adjusted plastic cylinder. A crucial innovation here is the placement of the intake with tape on the upper side rather than the lower side of the cut-out in the cardboard. This placement makes it easier for the intake to lift during the ejection process, facilitating smoother discharge of the PET bottles.
-<!--The below are gifs discharging plastic bottle (left) and placing plastic bottle inside (right).-->
+
 <table>
 <tr>
 <td><img src="/img/eject_bottle.gif"></td>
@@ -235,7 +235,7 @@ names: ['cap', 'label', 'pet']  # Class names
 $ python train.py --batch 16 --epochs 30 --data pet.yaml --weights yolov5s.pt 
 ```
 
-* The best.pt file can be obtained from train/runs/exp/weights. It can be used by placing it in the same folder as the 'startup file'. *起動ファイルのところを変えておく*
+* The best.pt file can be obtained from train/runs/exp/weights. It can be used by placing it in the same folder as the eco_filter.py.
 
 # Future directions
 The current model has been trained using approximately a hundred PET bottles collected from various locations within Gifu University's campus, resulting in a prediction capability limited to the preferences of Gifu University students. In the future, I plan to enhance the prediction capability by incorporating data on plastic bottle preferences from individuals across different age groups, including the elderly and children.
